@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODERN DESIGN BUILDING SERVICES LTD | Architectural Spatial Tech</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        modern: {
+                            bg: '#060913', /* Deep architectural midnight */
+                            card: '#0f1626', /* Elevated slate */
+                            border: '#1e293b', 
+                            accent: '#38bdf8', /* Precision Sky Blue */
+                            accent2: '#f59e0b', /* Structural Amber */
+                            textMuted: '#94a3b8',
+                            textWhite: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #060913;
+            color: #f8fafc;
+        }
+        /* Structural CAD Grid */
+        .bg-cad-grid {
+            background-image: 
+                linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+        }
+        .spa-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .spa-view.active {
+            display: block;
+            opacity: 1;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid #1e293b;
+            background-color: #060913;
+            color: #f8fafc;
+            transition: all 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Accordion transition */
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col bg-cad-grid relative">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-modern-bg/85 backdrop-blur-xl border-b border-modern-border transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" class="flex items-center group relative z-10">
+                    <div class="w-10 h-10 border border-modern-accent/40 bg-gradient-to-br from-modern-accent/20 to-modern-accent2/20 rounded flex items-center justify-center mr-3 group-hover:scale-105 transition-transform shadow-[0_0_15px_rgba(56,189,248,0.15)]">
+                        <svg class="w-6 h-6 text-modern-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-widest text-modern-textWhite uppercase mt-0.5">Modern Design</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 relative z-10">
+                    <a href="#home" class="text-sm font-semibold text-modern-textMuted hover:text-modern-textWhite uppercase tracking-widest transition-colors">Platform</a>
+                    <a href="#support" class="text-sm font-semibold text-modern-textMuted hover:text-modern-textWhite uppercase tracking-widest transition-colors">Support</a>
+                    <a href="#support" class="px-5 py-2.5 rounded bg-modern-textWhite text-modern-bg text-sm font-bold uppercase tracking-widest hover:bg-modern-accent hover:text-white transition-colors">
+                        Connect
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center relative z-10">
+                    <button id="mobileMenuBtn" class="text-modern-textMuted hover:text-white transition-colors">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7h16M4 12h16M4 17h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-modern-card border-b border-modern-border relative z-10 shadow-2xl">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <a href="#home" class="block px-4 py-3 text-sm font-semibold text-modern-textMuted hover:text-white uppercase tracking-widest border-b border-modern-border/50">Platform</a>
+                <a href="#support" class="block px-4 py-3 text-sm font-semibold text-modern-textMuted hover:text-white uppercase tracking-widest border-b border-modern-border/50">Support</a>
+                <a href="#privacy" class="block px-4 py-3 text-sm font-semibold text-modern-textMuted hover:text-white uppercase tracking-widest">Privacy Policy</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow pt-20 relative z-10">
+        
+        <!-- ==================== HOME VIEW ==================== -->
+        <div id="view-home" class="spa-view active">
+            <!-- Hero -->
+            <section class="py-24 lg:py-32 px-6">
+                <div class="max-w-5xl mx-auto text-center">
+                    <div class="inline-flex items-center px-5 py-1.5 rounded-full border border-modern-accent/40 bg-modern-accent/10 text-modern-accent text-xs font-bold tracking-widest uppercase mb-8 shadow-[0_0_15px_rgba(56,189,248,0.1)]">
+                        Wembley, United Kingdom • Building Systems
+                    </div>
+                    <h1 class="font-display font-extrabold text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-8">
+                        Modern Digital <br/>
+                        <span class="text-gradient">Infrastructure.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-modern-textMuted max-w-2xl mx-auto font-light leading-relaxed">
+                        MODERN DESIGN BUILDING SERVICES LTD engineers high-precision MEP spatial modeling software, LiDAR site-scanning tools, and enterprise CAD solutions for iOS.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Projects -->
+            <section class="py-20 px-6 border-t border-modern-border bg-modern-bg/80 backdrop-blur-sm">
+                <div class="max-w-7xl mx-auto">
+                    <div class="mb-16 text-center md:text-left">
+                        <h2 class="font-display text-4xl font-bold text-white mb-3">Enterprise Suite</h2>
+                        <p class="text-modern-textMuted text-lg">Proprietary B2B software solutions currently in production.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- App 1 -->
+                        <div class="bg-modern-card border border-modern-border p-8 rounded-2xl hover:border-modern-accent/50 transition-all duration-300 group shadow-lg">
+                            <div class="w-14 h-14 bg-modern-bg border border-modern-border rounded-xl flex items-center justify-center text-modern-accent mb-8 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            </div>
+                            <h3 class="font-display text-3xl font-bold text-white mb-3">ModStruct AR</h3>
+                            <div class="inline-flex items-center px-4 py-1.5 bg-modern-bg text-modern-textMuted border border-modern-border text-xs font-bold uppercase tracking-wider rounded-full mb-5">
+                                <span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span> Beta Phase
+                            </div>
+                            <p class="text-modern-textMuted text-base leading-relaxed">
+                                An augmented reality inspection utility built for MEP and building services engineers. Uses ARKit and LiDAR to overlay conduit and HVAC schematics onto physical structures on iPadOS.
+                            </p>
+                        </div>
+
+                        <!-- App 2 -->
+                        <div class="bg-modern-card border border-modern-border p-8 rounded-2xl hover:border-modern-accent2/50 transition-all duration-300 group shadow-lg">
+                            <div class="w-14 h-14 bg-modern-bg border border-modern-border rounded-xl flex items-center justify-center text-modern-accent2 mb-8 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                            </div>
+                            <h3 class="font-display text-3xl font-bold text-white mb-3">SiteGrid Sync API</h3>
+                            <div class="inline-flex items-center px-4 py-1.5 bg-modern-bg text-modern-textMuted border border-modern-border text-xs font-bold uppercase tracking-wider rounded-full mb-5">
+                                <span class="w-2 h-2 rounded-full bg-blue-500 mr-2"></span> In Engineering
+                            </div>
+                            <p class="text-modern-textMuted text-base leading-relaxed">
+                                Our bespoke BIM synchronization engine optimized to process multi-layered architectural schematics and compliance logs seamlessly on Apple Silicon without thermal throttling.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Corporate Registry -->
+            <section class="py-24 px-6 border-t border-modern-border">
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-10 text-center md:text-left">
+                        <h2 class="font-display text-4xl font-bold text-white mb-2">Corporate Registry</h2>
+                        <p class="text-modern-textMuted text-base">Verified UK operational data.</p>
+                    </div>
+
+                    <div class="bg-modern-card border border-modern-border p-8 md:p-12 rounded-[2rem] relative overflow-hidden shadow-2xl">
+                        <!-- Technical corner details -->
+                        <div class="absolute top-0 right-0 w-24 h-24 border-t border-r border-modern-accent/20 pointer-events-none"></div>
+                        <div class="absolute bottom-0 left-0 w-24 h-24 border-b border-l border-modern-accent/20 pointer-events-none"></div>
+
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-8 border-b border-modern-border relative z-10">
+                            <div>
+                                <p class="text-xs font-bold text-modern-accent uppercase tracking-widest mb-2">Registered Entity</p>
+                                <h3 class="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-wider leading-snug">MODERN DESIGN BUILDING SERVICES LTD</h3>
+                            </div>
+                            <div class="mt-4 md:mt-0 flex-shrink-0 md:ml-4">
+                                <div class="px-5 py-2.5 bg-green-950/40 border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-widest rounded-md flex items-center">
+                                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span> Active Status
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+                            <div>
+                                <p class="text-xs font-bold text-modern-textMuted uppercase tracking-widest mb-3">D-U-N-S® Number</p>
+                                <p class="text-xl font-mono text-white font-medium bg-modern-bg inline-block px-5 py-2.5 border border-modern-border rounded-md">217492189</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-modern-textMuted uppercase tracking-widest mb-3">Headquarters Address</p>
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-modern-accent mr-4 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <p class="text-lg text-white leading-relaxed font-medium">
+                                        164 Windermere Avenue<br>
+                                        WEMBLEY, HA9 8QT<br>
+                                        United Kingdom
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== SUPPORT VIEW ==================== -->
+        <div id="view-support" class="spa-view pt-12 pb-32 px-6">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Contact Form Side -->
+                <div>
+                    <div class="mb-10">
+                        <h1 class="font-display text-5xl font-bold text-white mb-4">Enterprise Support</h1>
+                        <p class="text-modern-textMuted text-lg">Contact our engineering operations for B2B beta access and technical inquiries.</p>
+                    </div>
+
+                    <div class="bg-modern-card border border-modern-border p-8 md:p-10 rounded-[2rem] shadow-2xl relative">
+                        
+                        <!-- Success Message Overlay -->
+                        <div id="formSuccess" class="hidden absolute inset-0 bg-modern-card/95 backdrop-blur-sm rounded-[2rem] flex flex-col items-center justify-center text-center p-8 z-20">
+                            <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mb-6">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h3 class="font-display text-2xl font-bold text-white mb-2">Request Submitted</h3>
+                            <p class="text-modern-textMuted">Our engineering team will review your inquiry and respond within 24-48 hours via encrypted channel.</p>
+                            <button onclick="resetForm()" class="mt-6 px-6 py-2 border border-modern-border text-modern-textMuted hover:text-white rounded-full transition-colors">Submit Another</button>
+                        </div>
+
+                        <form id="supportForm" class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-bold text-modern-textMuted uppercase tracking-widest mb-2">Representative Name</label>
+                                    <input type="text" name="name" required class="form-input" placeholder="Your Name">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-modern-textMuted uppercase tracking-widest mb-2">Corporate Email</label>
+                                    <input type="email" name="email" required class="form-input" placeholder="email@company.com">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-modern-textMuted uppercase tracking-widest mb-2">Request Category</label>
+                                <select name="subject" class="form-input appearance-none">
+                                    <option>ModStruct AR Beta Access</option>
+                                    <option>Technical Assistance</option>
+                                    <option>Business Partnerships</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-modern-textMuted uppercase tracking-widest mb-2">Message</label>
+                                <textarea name="message" rows="4" required class="form-input resize-none" placeholder="Provide operational context..."></textarea>
+                            </div>
+                            <button type="submit" id="formSubmitBtn" class="w-full py-4 bg-gradient-to-r from-modern-accent to-modern-accent2 text-white font-bold tracking-widest uppercase rounded-xl hover:opacity-90 transition-all shadow-lg flex justify-center items-center">
+                                Submit Request
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="mt-8 text-center p-6 bg-modern-bg border border-modern-border rounded-[2rem]">
+                        <p class="text-modern-textMuted text-sm font-bold uppercase tracking-widest mb-2">Direct Comms</p>
+                        <a href="mailto:admin@moderndesignbuildingservices.click" class="text-modern-accent hover:text-white transition-colors text-lg sm:text-xl font-display mt-2 inline-block font-bold break-all">admin@moderndesignbuildingservices.click</a>
+                    </div>
+                </div>
+
+                <!-- FAQ Side (Interactive) -->
+                <div class="pt-2 lg:pt-10">
+                    <h3 class="font-display text-2xl font-bold text-white mb-6">Frequently Asked Questions</h3>
+                    <div class="space-y-4">
+                        <!-- FAQ 1 -->
+                        <div class="border border-modern-border rounded-xl bg-modern-card overflow-hidden">
+                            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                                <span class="font-semibold text-white">How do I request TestFlight access?</span>
+                                <svg class="w-5 h-5 text-modern-accent transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="faq-content bg-modern-bg px-6">
+                                <p class="text-modern-textMuted py-4 border-t border-modern-border text-sm leading-relaxed">
+                                    Beta access via TestFlight is currently restricted to registered enterprise partners and associated contractors. Please submit a request using the form, selecting "Beta Access" as the category.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 2 -->
+                        <div class="border border-modern-border rounded-xl bg-modern-card overflow-hidden">
+                            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                                <span class="font-semibold text-white">Is SiteGrid Sync API UK GDPR compliant?</span>
+                                <svg class="w-5 h-5 text-modern-accent transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="faq-content bg-modern-bg px-6">
+                                <p class="text-modern-textMuted py-4 border-t border-modern-border text-sm leading-relaxed">
+                                    Yes. Operating out of Wembley, United Kingdom, our cloud synchronization engines are engineered to comply strictly with UK GDPR and data residency standards, utilizing end-to-end encryption.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 3 -->
+                        <div class="border border-modern-border rounded-xl bg-modern-card overflow-hidden">
+                            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                                <span class="font-semibold text-white">Which Apple devices support ModStruct AR?</span>
+                                <svg class="w-5 h-5 text-modern-accent transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="faq-content bg-modern-bg px-6">
+                                <p class="text-modern-textMuted py-4 border-t border-modern-border text-sm leading-relaxed">
+                                    ModStruct AR requires iPadOS 16.0 or later and is optimized specifically for iPad Pro models equipped with LiDAR scanners and Apple Silicon (M1 and newer) for real-time spatial occlusion.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PRIVACY VIEW ==================== -->
+        <div id="view-privacy" class="spa-view pt-12 pb-32 px-6">
+            <div class="max-w-4xl mx-auto bg-modern-card border border-modern-border p-10 md:p-16 rounded-[2rem] shadow-2xl">
+                <h1 class="font-display text-4xl font-bold text-white mb-2">Privacy Protocol</h1>
+                <p class="text-modern-accent text-xs font-bold tracking-widest uppercase mb-10 pb-8 border-b border-modern-border">Effective Date: April 18, 2024</p>
+                
+                <div class="space-y-8 text-modern-textMuted text-base leading-relaxed">
+                    <p><strong>MODERN DESIGN BUILDING SERVICES LTD</strong> strictly enforces data protection standards. This document details our data handling procedures for our enterprise applications and corporate infrastructure.</p>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">1. Diagnostic Collection</h3>
+                        <p>We do not passively extract personal data. Our enterprise applications log anonymized crash reports and spatial engine metrics solely to refine AR tracking stability and reduce rendering latency.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">2. Information Processing</h3>
+                        <p>Information actively supplied by users through our B2B support terminals or beta registration forms is processed exclusively to deliver technical support and authenticate corporate access.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">3. UK Data Sovereignty (UK GDPR)</h3>
+                        <p>Operating out of Wembley, United Kingdom, our protocols align strictly with the UK General Data Protection Regulation (UK GDPR). Corporate clients and individual users retain full authority to request audits, modifications, or erasure of their records via our support channels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TERMS VIEW ==================== -->
+        <div id="view-terms" class="spa-view pt-12 pb-32 px-6">
+            <div class="max-w-4xl mx-auto bg-modern-card border border-modern-border p-10 md:p-16 rounded-[2rem] shadow-2xl">
+                <h1 class="font-display text-4xl font-bold text-white mb-2">Terms of Service</h1>
+                <p class="text-modern-accent text-xs font-bold tracking-widest uppercase mb-10 pb-8 border-b border-modern-border">Last Updated: April 18, 2024</p>
+                
+                <div class="space-y-8 text-modern-textMuted text-base leading-relaxed">
+                    <p>Utilization of software ecosystems, APIs, and digital environments governed by <strong>MODERN DESIGN BUILDING SERVICES LTD</strong> implies your acceptance of the following operating conditions.</p>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">1. Software License (EULA)</h3>
+                        <p>We provide a restricted, non-transferable license to interface with our digital design and engineering utilities. Reverse engineering, API misuse, or commercial redistribution of our proprietary code is strictly prohibited.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">2. Pre-Release Constraints</h3>
+                        <p>Systems designated as "Beta" or "In Engineering" are deployed as-is. MODERN DESIGN BUILDING SERVICES LTD accepts no liability for rendering failures, corporate data corruption, or downtime stemming from beta environment usage.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">3. Legal Jurisdiction</h3>
+                        <p>These terms are governed exclusively by the laws of England and Wales. Any legal contestations shall be resolved within the courts of the United Kingdom.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-modern-border bg-modern-bg px-6 py-12 mt-auto relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="mb-6 md:mb-0 text-center md:text-left">
+                <span class="font-display font-bold text-white uppercase tracking-widest block mb-2 text-lg">MODERN DESIGN BUILDING SERVICES LTD</span>
+                <span class="text-modern-textMuted font-mono text-xs">&copy; <span id="currentYear">2024</span>. All rights reserved.</span>
+            </div>
+            <div class="flex space-x-8">
+                <a href="#privacy" class="text-modern-textMuted hover:text-white uppercase tracking-widest font-bold transition-colors">Privacy</a>
+                <a href="#terms" class="text-modern-textMuted hover:text-white uppercase tracking-widest font-bold transition-colors">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts (Routing, FAQ, Form Sim, Year) -->
+    <script>
+        // 1. Dynamic Year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // 2. SPA Routing
+        function route() {
+            let hash = window.location.hash || '#home';
+            if (hash === '#' || hash === '') hash = '#home';
+
+            document.querySelectorAll('.spa-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const targetView = document.querySelector('#view-' + hash.substring(1));
+            if (targetView) {
+                targetView.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                document.querySelector('#view-home').classList.add('active');
+                window.location.hash = '#home';
+            }
+        }
+        window.addEventListener('hashchange', route);
+        window.addEventListener('DOMContentLoaded', route);
+
+        // 3. Mobile Menu Toggle
+        const btn = document.getElementById('mobileMenuBtn');
+        const menu = document.getElementById('mobileMenu');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => menu.classList.add('hidden'));
+        });
+
+        // 4. FAQ Accordion Logic
+        document.querySelectorAll('.faq-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('svg');
+                
+                // Toggle current
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // 5. Form Simulation Logic
+        const contactForm = document.getElementById('supportForm');
+        const formSubmitBtn = document.getElementById('formSubmitBtn');
+        const formSuccess = document.getElementById('formSuccess');
+
+        if(contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent real submit for demo
+                const originalText = formSubmitBtn.innerHTML;
+                
+                // Show loading state
+                formSubmitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...';
+                
+                // Simulate network request
+                setTimeout(() => {
+                    contactForm.reset();
+                    formSubmitBtn.innerHTML = originalText;
+                    contactForm.style.opacity = '0';
+                    setTimeout(() => {
+                        contactForm.classList.add('hidden');
+                        contactForm.style.opacity = '1';
+                        formSuccess.classList.remove('hidden');
+                    }, 300);
+                }, 1500);
+            });
+        }
+
+        // Reset form view
+        window.resetForm = function() {
+            formSuccess.classList.add('hidden');
+            contactForm.classList.remove('hidden');
+        };
+    </script>
+</body>
+</html>
